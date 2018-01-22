@@ -649,7 +649,7 @@ class WikipediaPage(object):
 
       #request = _wiki_request(query_params)
     section_regx = re.compile(u"== {(.*?)} ==")
-    self._sections = section_regx.findall(sel.content)
+    self._sections = section_regx.findall(self.content)
       #self._sections = [section['line'] for section in request['parse']['sections']]
 
     return self._sections
