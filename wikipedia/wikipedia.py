@@ -638,17 +638,19 @@ class WikipediaPage(object):
     List of section titles from the table of contents on the page.
     '''
 
-    if not getattr(self, '_sections', False):
-      query_params = {
-        'action': 'parse',
-        'prop': 'sections',
-      }
+    #if not getattr(self, '_sections', False):
+      #query_params = {
+      #  'action': 'parse',
+      #  'prop': 'sections',
+      #}
 
-      if getattr(self, 'title', None) is not None:
-        query_params.update({'page': self.title})
+      #if getattr(self, 'title', None) is not None:
+      #  query_params.update({'page': self.title})
 
-      request = _wiki_request(query_params)
-      self._sections = [section['line'] for section in request['parse']['sections']]
+      #request = _wiki_request(query_params)
+    section_regx = re.compile(u"== {(.*?)} ==")
+    self._sections = section_regx.findall(sel.content)
+      #self._sections = [section['line'] for section in request['parse']['sections']]
 
     return self._sections
 
