@@ -636,18 +636,15 @@ class WikipediaPage(object):
   def sections(self):
     '''
     List of section titles from the table of contents on the page.
+    NOTE: This method does not use the wikipedia api to request the 
+    table of content. Because the output of this api function differs
+    from the formating of the section tiles in the `section` function
+    of this class.
+
     '''
-
-    if not getattr(self, '_sections', False):
-      query_params = {
-        'action': 'parse',
-        'prop': 'sections',
-      }
-      query_params.update(self.__title_query_param)
-
-      request = _wiki_request(query_params)
-      self._sections = [section['line'] for section in request['parse']['sections']]
-
+    section_regx = re.compile(u"== (.*?) ==")
+    self._sections = section_regx.findall(self.content)
+    
     return self._sections
 
   def section(self, section_title):
